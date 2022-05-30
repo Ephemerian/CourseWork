@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Hotels";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container col-lg-push-4">
+    <h2>Adding new design</h2>
+    <div class="form-group">
+        <label for="name">Name of new hotel</label>
+        <input type="text" class="form-control" id="name" placeholder="Hotel name" name="name">
+        <label for="stars">Amount of stars of new hotel</label>
+        <input type="number" class="form-control" id="stars" placeholder="1-5" name="stars">
+        <label for="address">Address of new hotel</label>
+        <input type="text" class="form-control" id="address" placeholder="Address" name="address">
+    </div>
+    <button type="submit" class="btn btn-default" onclick="AddHotel()">Submit</button>
+</div>
+@section scripts{
+    <script type="text/javascript">
+
+    function AddHotel() {
+        var Hotel = {
+            Name: $('#name').val(),
+            Stars: $('#stars').val(),
+            Address: $('#address').val()
+        }
+        if (Hotel.Name.length < 3)
+            alert('Name must have at least 3 symbols')
+        else if (Hotel.Address.length < 5)
+            alert('Name must have at least 5 symbols')
+        else
+            $.ajax({
+                url: '/api/hotel/',
+                type: 'POST',
+                dataType: 'JSON',
+                data: JSON.stringify(Hotel),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    alert("Success")
+                },
+                error: function (error) {
+                    alert(error.responseText);
+                }
+            });
+    }
+    </script>
+}

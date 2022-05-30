@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Tours";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container col-lg-push-4">
+    <h2>Adding new tour</h2>
+    <div class="form-group">
+        <label for="name">Name of new tour</label>
+        <input type="text" class="form-control" id="name" placeholder="Name" name="name">
+        <label for="type">Type of new tour</label>
+        <input type="text" class="form-control" id="type" placeholder="Type" name="type">
+        <label for="country">Country of new tour</label>
+        <input type="text" class="form-control" id="country" placeholder="Country" name="country">
+        <label for="city">City of new tour</label>
+        <input type="text" class="form-control" id="city" placeholder="City" name="city">
+        <label for="description">Description of new tour</label>
+        <input type="text" class="form-control" id="description" placeholder="Description" name="description">
+        <label for="duration">Duration of new tour</label>
+        <input type="number" class="form-control" id="duration" placeholder="Duration" name="duration">
+        <label for="price">Price of new tour</label>
+        <input type="number" class="form-control" id="price" placeholder="Price" name="price">
+    </div>
+    <button type="submit" class="btn btn-default" onclick="AddTour()">Submit</button>
+</div>
+@section scripts{
+    <script type="text/javascript">
+
+    function AddTour() {
+        var Tour = {
+            Name: $('#name').val(),
+            Price: $('#price').val(),
+            Type: $('#type').val(),
+            Country: $('#country').val(),
+            City: $('#city').val(),
+            Duration: $('#duration').val(),
+            Description: $('#description').val(),
+        }
+        if (Tour.Name.length < 3)
+            alert('Name must have at least 3 symbols')
+        else if (Tour.Price == 0)
+            alert('Enter price')
+        else if (Tour.Type.length < 3)
+            alert('Type must have at least 3 symbols')
+        else if (Tour.Country.length < 3)
+            alert('Country must have at least 3 symbols')
+        else if (Tour.City.length < 3)
+            alert('City must have at least 3 symbols')
+        else if (Tour.Duration == 0)
+            alert('Enter duration')
+        else if (Tour.Description.length < 3)
+            alert('Description must have at least 3 symbols')
+        else
+            $.ajax({
+                url: '/api/tour/',
+                type: 'POST',
+                dataType: 'JSON',
+                data: JSON.stringify(Tour),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    alert("Success")
+                },
+                error: function (error) {
+                    alert(error.responseText);
+                }
+            });
+    }
+    </script>
+}
